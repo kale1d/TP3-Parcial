@@ -1,6 +1,6 @@
 package com.ort.edu.parcialtp3.services
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFagctory
+import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiServiceBuilder {
 
