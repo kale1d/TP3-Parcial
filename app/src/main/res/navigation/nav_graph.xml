@@ -21,4 +21,14 @@
         android:name="com.ort.edu.parcialtp3.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/favoritos4"
+        android:name="com.ort.edu.parcialtp3.fragments.favoritos"
+        android:label="fragment_favoritos"
+        tools:layout="@layout/fragment_favoritos" />
+    <fragment
+        android:id="@+id/settings3"
+        android:name="com.ort.edu.parcialtp3.fragments.settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

@@ -52,4 +52,12 @@ class MainActivity : AppCompatActivity() {
 
         return false
     }
+
+
+    fun setDrawerLocked(){
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+    fun setDrawerUnlocked(){
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+    }
 }
