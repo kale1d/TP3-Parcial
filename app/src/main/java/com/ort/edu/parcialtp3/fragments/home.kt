@@ -1,11 +1,17 @@
 package com.ort.edu.parcialtp3.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.ort.edu.parcialtp3.R
+import com.ort.edu.parcialtp3.services.ApiServiceBuilder
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,6 +36,11 @@ class HomeFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        obtenerCharacters()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +49,44 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    companion object {
+    fun obtenerCharacters(){
+        val service = ApiServiceBuilder.create()
+
+        service.getCharacters().enqueue(object : Callback<ArrayList<com.ort.edu.parcialtp3.model.Character>> {
+
+            override fun onResponse(
+                call: Call<ArrayList<com.ort.edu.parcialtp3.model.Character>>,
+                response: Response<ArrayList<com.ort.edu.parcialtp3.model.Character>>
+            ) {
+                if (response.isSuccessful) {
+                    val lista = response.body();
+                    var size = lista?.size ?: 1;
+                    val data = lista?.get(size - 1);
+                    var nombre = view?.findViewById<TextView>(R.id.nombre)
+                    var especie = view?.findViewById<TextView>(R.id.especie)
+                    if (nombre != null) {
+                        nombre.text = data?.name.toString()
+                    }
+                    if (especie != null) {
+                        especie.text = data?.species.toString()
+                    }
+
+                }
+            }
+
+            override fun onFailure(call: Call<ArrayList<com.ort.edu.parcialtp3.model.Character>>, t: Throwable) {
+                Log.e("Ejemplo", t.toString())
+            }
+
+        })
+    }
+
+
+private fun <T> Call<T>.enqueue(callback: Callback<ArrayList<T>>) {
+
+}
+
+companion object {
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
