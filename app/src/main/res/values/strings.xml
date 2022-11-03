@@ -1,9 +1,17 @@
 <resources>
     <string name="app_name">ParcialTP3</string>
-    <!-- Strings related to login -->
+
+    <!-- LOGIN STRINGS -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_button">Continuar</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
+    <!-- HOME STRINGS -->
+    <string name="home">HOME</string>
+    <string name="datacharacter_name">dataCharacter_name</string>
+    <string name="datacharacter_status">dataCharacter_status</string>
+    <string name="datacharacter_image">dataCharacter_image</string>
+
+    <!-- GENERALS STRINGS -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
