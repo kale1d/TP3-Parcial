@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -42,16 +43,8 @@ class MainActivity : AppCompatActivity() {
             }else{
                 navViewComponent.visibility = View.VISIBLE
                 supportActionBar?.setHomeAsUpIndicator(R.drawable.hamburger)
-
-                if(destination.id == R.id.favoritos4){
-                    arguments?.getString("username")?.let{
-                        userName = it
-                        UserSession.userName = it
-                    }
-                }
+                drawerLayout.setDrawerLockMode(LOCK_MODE_UNLOCKED)
             }
-
-
         }
     }
 
