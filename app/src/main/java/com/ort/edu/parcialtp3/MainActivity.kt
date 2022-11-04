@@ -7,10 +7,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.ort.edu.parcialtp3.UserSession.userName
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +33,26 @@ class MainActivity : AppCompatActivity() {
 
         setUpDrawerLayout()
 
+        navHostFragment.navController.addOnDestinationChangedListener{controller, destination, arguments ->
+            var navViewComponent = findViewById<NavigationView>(R.id.nav_view)
+            if (destination.id == R.id.loginFragment){
+                navViewComponent.visibility = View.GONE
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
+            }else{
+                navViewComponent.visibility = View.VISIBLE
+                supportActionBar?.setHomeAsUpIndicator(R.drawable.hamburger)
+
+                if(destination.id == R.id.favoritos4){
+                    arguments?.getString("username")?.let{
+                        userName = it
+                        UserSession.userName = it
+                    }
+                }
+            }
+
+
+        }
     }
 
 

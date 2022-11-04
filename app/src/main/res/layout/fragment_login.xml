@@ -43,7 +43,7 @@
         android:layout_marginTop="56dp"
         android:background="@drawable/box_shape"
         android:fontFamily="casual"
-        android:hint="@string/prompt_email"
+        android:hint="@string/prompt_user"
         android:paddingStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

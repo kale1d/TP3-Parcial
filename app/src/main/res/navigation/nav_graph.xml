@@ -21,13 +21,16 @@
         android:id="@+id/homeFragment"
         android:name="com.ort.edu.parcialtp3.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/favoritos4"
         android:name="com.ort.edu.parcialtp3.fragments.favoritos"
         android:label="fragment_favoritos"
-        tools:layout="@layout/fragment_favoritos" />
+        tools:layout="@layout/fragment_favoritos" >
+        <argument
+            android:name="usuario"
+            app:argType="string" />
+    </fragment>
 
     <activity
         android:id="@+id/settings3"

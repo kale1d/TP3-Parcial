@@ -20,14 +20,15 @@
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:iconifiedByDefault="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/homeTextView"
-            app:queryHint="Search Character"/>
+            app:queryHint="Search Character"
+            android:background="@drawable/box_shape"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/characterRecyclerView"
