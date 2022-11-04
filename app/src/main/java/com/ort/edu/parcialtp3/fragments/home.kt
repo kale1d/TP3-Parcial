@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,7 @@ class HomeFragment : Fragment() {
     private var param2: String? = null
     private lateinit var characterRecyclerView: RecyclerView
     private lateinit var characterList: List<Character>
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,18 +47,59 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         characterRecyclerView = view.findViewById(R.id.characterRecyclerView)
+        characterList = arrayListOf<Character>()
 
-       getCharacters()
+        getCharacters()
         // Configuro el recyclerview y le paso un Adapter
         // val layoutManager = LinearLayoutManager(context)
         val layoutManager = GridLayoutManager(context, 2)
         characterRecyclerView.layoutManager = layoutManager
+        characterRecyclerView.adapter = CharacterAdapter(characterList)
+
+        // Configuro el searchview
+        searchView = view.findViewById(R.id.search_view)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText!!.isNotEmpty()) {
+                    getCharactersByName(newText)
+                }
+                return false
+            }
+        })
     }
 
     fun getCharacters() {
         val service = ApiServiceBuilder.create()
 
         service.getCharacters().enqueue(object : Callback<CharacterData> {
+            override fun onResponse(
+                call: Call<CharacterData>,
+                response: Response<CharacterData>
+            ) {
+                if (response.isSuccessful) {
+                    characterList = response.body()!!.results
+                     characterRecyclerView.adapter = CharacterAdapter(characterList)
+                    // Para que funcione el onclick y abra la info de un character,
+                    // characterRecyclerView.adapter = CharacterAdapter(characterList, this)
+                    // ver video https://www.youtube.com/watch?v=K5YnTvsVPRk
+                    //characterRecyclerView.adapter?.notifyDataSetChanged()
+                }
+            }
+
+            override fun onFailure(call: Call<CharacterData>, t: Throwable) {
+                Log.e("Error", t.toString())
+            }
+        })
+    }
+
+    fun getCharactersByName(name: String) {
+        val service = ApiServiceBuilder.create()
+
+        service.getCharactersByName(name).enqueue(object : Callback<CharacterData> {
             override fun onResponse(
                 call: Call<CharacterData>,
                 response: Response<CharacterData>
