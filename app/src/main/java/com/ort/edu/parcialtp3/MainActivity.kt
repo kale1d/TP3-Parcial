@@ -1,8 +1,10 @@
 package com.ort.edu.parcialtp3
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
+import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.NavHostFragment
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 //            .setupWithNavController(navController)
 
         setUpDrawerLayout()
+
     }
 
 
@@ -41,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, _, _ ->
             supportActionBar?.setHomeAsUpIndicator(R.drawable.hamburger)
         }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -60,4 +64,6 @@ class MainActivity : AppCompatActivity() {
     fun setDrawerUnlocked(){
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
     }
+
+
 }
