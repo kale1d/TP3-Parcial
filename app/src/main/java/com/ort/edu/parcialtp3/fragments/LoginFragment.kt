@@ -10,16 +10,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.datastore.dataStore
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ort.edu.parcialtp3.MainActivity
 import com.ort.edu.parcialtp3.R
+import com.ort.edu.parcialtp3.dataStore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass.
  * Use the [LoginFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
 class LoginFragment : Fragment() {
 
     private lateinit var userEditText: EditText
@@ -63,9 +72,21 @@ class LoginFragment : Fragment() {
 
         continueButton.setOnClickListener {
             // Navego hacia la home
+            lifecycleScope.launch{
+                Dispatchers.IO
+                saveValues(userEditText.text.toString(), passwordEditText.text.toString())
+            }
+
                 navController.navigate(
                     LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                 )
+        }
+    }
+
+    private suspend fun saveValues(name: String, password: String) {
+        requireContext().dataStore.edit { preferences->
+            preferences[stringPreferencesKey("name")] = name
+            preferences[stringPreferencesKey("password")] = password
         }
     }
 

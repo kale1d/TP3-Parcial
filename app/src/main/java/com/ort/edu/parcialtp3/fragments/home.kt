@@ -6,14 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.edu.parcialtp3.R
 import com.ort.edu.parcialtp3.adapter.CharacterAdapter
+import com.ort.edu.parcialtp3.dataStore
 import com.ort.edu.parcialtp3.model.Character
 import com.ort.edu.parcialtp3.model.CharacterData
+import com.ort.edu.parcialtp3.model.UserData
 import com.ort.edu.parcialtp3.services.ApiServiceBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -70,6 +78,19 @@ class HomeFragment : Fragment() {
                 return false
             }
         })
+
+        lifecycleScope.launch(Dispatchers.IO){
+            getUserData().collect{
+                searchView.
+            }
+        }
+    }
+
+    private fun getUserData() = requireContext().dataStore.data.map { preferences ->
+        UserData(
+            name = preferences[stringPreferencesKey("name")].orEmpty(),
+            password = preferences[stringPreferencesKey("password")].orEmpty()
+        )
     }
 
     fun getCharacters() {
@@ -82,7 +103,7 @@ class HomeFragment : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     characterList = response.body()!!.results
-                     characterRecyclerView.adapter = CharacterAdapter(characterList)
+                    characterRecyclerView.adapter = CharacterAdapter(characterList)
                     // Para que funcione el onclick y abra la info de un character,
                     // characterRecyclerView.adapter = CharacterAdapter(characterList, this)
                     // ver video https://www.youtube.com/watch?v=K5YnTvsVPRk
