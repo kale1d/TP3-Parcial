@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ParcialTP3</string>
+    <string name="app_name">Rick and Morty</string>
 
     <!-- LOGIN STRINGS -->
     <string name="prompt_email">Email</string>
@@ -31,5 +31,5 @@
 
     <string name="dark_mode">Dark Mode</string>
     <string name="dark_mode_def_value">1</string>
-
+    <string name="contrasenia">Olvidaste tu contraseña?</string>
 </resources>
