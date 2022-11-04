@@ -2,6 +2,8 @@ package com.ort.edu.parcialtp3.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,41 +24,48 @@ class LoginFragment : Fragment() {
 
     private lateinit var userEditText: EditText
     private lateinit var passwordEditText: EditText
+   private lateinit var continueButton: Button
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view = inflater.inflate(R.layout.fragment_login, container, false)
 
-//        ((MainActivity)getActivity()).setDrawerLocked()
-
-        return inflater.inflate(R.layout.fragment_login, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-        val navController = findNavController()
-        val continueButton = view.findViewById<Button>(R.id.login_button)
+        continueButton = view.findViewById<Button>(R.id.login_button)
         userEditText = view.findViewById(R.id.username_input)
         passwordEditText = view.findViewById(R.id.password_input)
 
-        continueButton.setOnClickListener {
+        userEditText.addTextChangedListener(loginTextWatcher)
+        passwordEditText.addTextChangedListener(loginTextWatcher)
 
+        return view;
+    }
+ private val loginTextWatcher = object: TextWatcher {
+     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+         val user_name = userEditText.text.toString().trim()
+         val password = passwordEditText.text.toString().trim()
+
+         continueButton.isEnabled = user_name.isNotEmpty() && password.isNotEmpty()
+     }
+
+     override fun afterTextChanged(p0: Editable?) {}
+
+ }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val navController = findNavController()
+
+
+
+        continueButton.setOnClickListener {
             // Navego hacia la home
-            if(!userEditText.text.isEmpty() && !passwordEditText.text.isEmpty()){
                 navController.navigate(
                     LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                 )
-            }else{
-//                val builder = AlertDialog.Builder(context)
-//                //set title for alert dialog
-//                builder.setTitle("Incompleto")
-//                //set message for alert dialog
-//                builder.setMessage("Mail y contrasenia deben contener algo")
-            }
         }
     }
 
