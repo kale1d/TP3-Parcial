@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/card"
         android:layout_margin="5dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
+                android:fontFamily="casual"
+                android:textStyle="bold"
                 android:text="@string/datacharacter_name"/>
 
             <!-- Status -->
@@ -47,6 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
+                android:fontFamily="casual"
+                android:textStyle="bold"
                 android:text="@string/datacharacter_status" />
         </LinearLayout>
 
