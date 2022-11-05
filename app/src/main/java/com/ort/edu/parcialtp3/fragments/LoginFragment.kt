@@ -16,12 +16,16 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.ort.edu.parcialtp3.MainActivity
 import com.ort.edu.parcialtp3.R
 import com.ort.edu.parcialtp3.dataStore
+import com.ort.edu.parcialtp3.model.UserData
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * A simple [Fragment] subclass.
@@ -68,21 +72,38 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = findNavController()
 
-
-
+        goToHome(navController)
         continueButton.setOnClickListener {
-            // Navego hacia la home
+
+            //guardo los valores en el data store
             lifecycleScope.launch{
                 Dispatchers.IO
                 saveValues(userEditText.text.toString(), passwordEditText.text.toString())
             }
-
                 navController.navigate(
                     LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                 )
         }
     }
 
+    private fun goToHome(navController: NavController) {
+        lifecycleScope.launch(Dispatchers.IO){
+            getUserData().collect{
+                withContext(Dispatchers.Main){
+                    if(it.name !== null){
+                        navController.navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getUserData() = requireContext().dataStore.data.map { preferences ->
+        UserData(
+            name = preferences[stringPreferencesKey("name")].orEmpty(),
+            password = preferences[stringPreferencesKey("password")].orEmpty()
+        )
+    }
     private suspend fun saveValues(name: String, password: String) {
         requireContext().dataStore.edit { preferences->
             preferences[stringPreferencesKey("name")] = name
