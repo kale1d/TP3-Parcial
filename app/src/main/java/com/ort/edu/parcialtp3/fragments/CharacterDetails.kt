@@ -1,11 +1,16 @@
 package com.ort.edu.parcialtp3.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.ort.edu.parcialtp3.R
+import java.util.jar.Attributes.Name
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +27,13 @@ class CharacterDetails : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var characterImage: ImageView
+    private lateinit var estado: TextView
+    private lateinit var nombre: TextView
+    private lateinit var especie: TextView
+    private lateinit var origen: TextView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -36,6 +48,34 @@ class CharacterDetails : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_character_details, container, false)
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        characterImage = view.findViewById(R.id.character_image_details)
+        estado = view.findViewById(R.id.character_estado)
+        nombre = view.findViewById(R.id.character_nombre)
+        especie = view.findViewById(R.id.character_especie)
+        origen = view.findViewById(R.id.character_origen)
+
+        arguments?.let {
+            val character = CharacterDetailsArgs.fromBundle(it).character
+
+//            val theOrigin = character.origin.
+
+            estado.text = "Estado: ${character.status}"
+            nombre.text =  character.name
+            especie.text = "Especie: ${character.species}"
+            origen.text = "Origen: ${character.origin}"
+//            origen.text = "Origen: $theOrigin"
+            Glide.with(this)
+                .load(character.image)
+                .into(characterImage)
+        }
+
     }
 
     companion object {

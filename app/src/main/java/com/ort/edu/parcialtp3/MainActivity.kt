@@ -42,6 +42,10 @@ class MainActivity : AppCompatActivity() {
                 navViewComponent.visibility = View.VISIBLE
                 supportActionBar?.setHomeAsUpIndicator(R.drawable.hamburger)
                 drawerLayout.setDrawerLockMode(LOCK_MODE_UNLOCKED)
+
+                if(destination.id == R.id.homeFragment){
+                    arguments?.getString("usuario").let { UserSession.userName = it }
+                }
             }
         }
     }

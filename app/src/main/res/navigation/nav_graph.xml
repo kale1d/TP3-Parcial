@@ -25,6 +25,10 @@
         <action
             android:id="@+id/action_homeFragment_to_characterDetailsFragment"
             app:destination="@id/character_details" />
+        <argument
+            android:name="usuario"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment

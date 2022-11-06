@@ -5,12 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.edu.parcialtp3.R
+import com.ort.edu.parcialtp3.UserSession
 import com.ort.edu.parcialtp3.adapter.CharacterAdapter
 import com.ort.edu.parcialtp3.listener.OnCharacterClickedListener
 import com.ort.edu.parcialtp3.model.Character
@@ -79,6 +81,9 @@ class HomeFragment : Fragment(), OnCharacterClickedListener {
         })
 
         getCharacters()
+
+        var name = view.findViewById<TextView>(R.id.homeTextView)
+        name.text = "Hola, ${UserSession.userName}"
     }
 
     fun getCharacters() {

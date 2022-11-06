@@ -3,14 +3,17 @@ package com.ort.edu.parcialtp3.model
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Character(val id: Int, val name: String?, val status: String?, val image: String?) :
+data class Character(val id: Int, val name: String?, val status: String?, val image: String?, val species: String?, val origin: Object?) :
 
-    Parcelable {
+
+Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
+        parcel.readString(),
+        parcel.readString(),
+        TODO("origin")
     ) {
     }
 
@@ -19,6 +22,7 @@ data class Character(val id: Int, val name: String?, val status: String?, val im
         parcel.writeString(name)
         parcel.writeString(status)
         parcel.writeString(image)
+        parcel.writeString(species)
     }
 
     override fun describeContents(): Int {

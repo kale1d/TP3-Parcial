@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.ort.edu.parcialtp3.MainActivity
 import com.ort.edu.parcialtp3.R
+import com.ort.edu.parcialtp3.UserSession
 import com.ort.edu.parcialtp3.dataStore
 import com.ort.edu.parcialtp3.model.UserData
 import kotlinx.coroutines.Dispatchers
@@ -81,7 +82,7 @@ class LoginFragment : Fragment() {
                 saveValues(userEditText.text.toString(), passwordEditText.text.toString())
             }
                 navController.navigate(
-                    LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                    LoginFragmentDirections.actionLoginFragmentToHomeFragment(UserSession.userName)
                 )
         }
     }
@@ -91,7 +92,7 @@ class LoginFragment : Fragment() {
             getUserData().collect{
                 withContext(Dispatchers.Main){
                     if(it.name !== null){
-                        navController.navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+                        navController.navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment(UserSession.userName))
                     }
                 }
             }
