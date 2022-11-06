@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.ort.edu.parcialtp3.R
 import java.util.jar.Attributes.Name
@@ -26,6 +27,7 @@ class CharacterDetails : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val args: CharacterDetailsArgs by navArgs()
 
     private lateinit var characterImage: ImageView
     private lateinit var estado: TextView
@@ -47,7 +49,12 @@ class CharacterDetails : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_character_details, container, false)
+        val view = inflater.inflate(R.layout.fragment_character_details, container, false)
+//        val image = view.findViewById<ImageView>(R.id.imageView)
+//
+//        Glide.with(this).load(args.character.image).into(image)
+//
+        return view
     }
 
 
