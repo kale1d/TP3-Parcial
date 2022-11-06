@@ -37,6 +37,7 @@ class HomeFragment : Fragment() {
     private lateinit var characterRecyclerView: RecyclerView
     private lateinit var characterList: List<Character>
     private lateinit var searchView: SearchView
+    private lateinit var textHome: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,8 +59,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         characterRecyclerView = view.findViewById(R.id.characterRecyclerView)
         characterList = arrayListOf<Character>()
-        val textHome = view.findViewById<TextView>(R.id.homeTextView)
-
+        textHome = view.findViewById(R.id.homeTextView)
         getCharacters()
         // Configuro el recyclerview y le paso un Adapter
         // val layoutManager = LinearLayoutManager(context)
@@ -96,7 +96,7 @@ class HomeFragment : Fragment() {
                 if (response.isSuccessful) {
                     characterList = response.body()!!.results
                     characterRecyclerView.adapter = CharacterAdapter(characterList)
-                    // Para que funcione el onclick y abra la info de un character,
+                // Para que funcione el onclick y abra la info de un character,
                     // characterRecyclerView.adapter = CharacterAdapter(characterList, this)
                     // ver video https://www.youtube.com/watch?v=K5YnTvsVPRk
                     //characterRecyclerView.adapter?.notifyDataSetChanged()
