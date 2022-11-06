@@ -55,6 +55,7 @@
                 android:fontFamily="casual"
                 android:text="@string/datacharacter_status"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
