@@ -84,6 +84,7 @@ class HomeFragment : Fragment(), OnCharacterClickedListener {
 
         var name = view.findViewById<TextView>(R.id.homeTextView)
         name.text = "Hola, ${UserSession.userName}"
+
     }
 
     fun getCharacters() {
@@ -130,6 +131,7 @@ class HomeFragment : Fragment(), OnCharacterClickedListener {
         })
     }
 
+
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
@@ -145,4 +147,7 @@ class HomeFragment : Fragment(), OnCharacterClickedListener {
         Log.i("onCharacterSelected", character.toString())
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCharacterDetailsFragment(character))
     }
+
+
+
 }
