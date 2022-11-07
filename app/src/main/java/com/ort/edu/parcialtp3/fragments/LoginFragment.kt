@@ -78,7 +78,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         navController = findNavController()
 
         goToHome()
@@ -86,21 +85,22 @@ class LoginFragment : Fragment() {
         continueButton.setOnClickListener {
             //guardo los valores en el data store
             lifecycleScope.launch(Dispatchers.IO) {
-                saveValues(userEditText.text.toString(), passwordEditText.text.toString())
+                withContext(Dispatchers.Main){
+                    saveValues(userEditText.text.toString(), passwordEditText.text.toString())
+                }
             }
-            goToHome()
+
         }
     }
 
 
     private fun goToHome() {
+        println("HOLA")
         lifecycleScope.launch(Dispatchers.IO) {
             getUserData().collect { preferences ->
                 withContext(Dispatchers.Main) {
                     if (preferences.name !== null && preferences.name.isNotEmpty()) {
                         navController.navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment(preferences.name))
-                    } else {
-
                     }
                 }
             }

@@ -1,6 +1,8 @@
 package com.ort.edu.parcialtp3
 
 import android.content.Context
+import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -22,6 +24,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.ort.edu.parcialtp3.fragments.favoritos
 import com.ort.edu.parcialtp3.fragments.HomeFragment
+import com.ort.edu.parcialtp3.fragments.LoginFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -71,8 +74,10 @@ class MainActivity : AppCompatActivity() {
             dataStore.edit { preferences ->
                 preferences.clear()
             }
-            navHostFragment.navController.popBackStack()
-//
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        finish()
+
     }
 
     private fun setUpDrawerLayout() {
@@ -113,6 +118,10 @@ class MainActivity : AppCompatActivity() {
 
         return false
     }
+}
+
+private fun Intent.setFlags(b: Boolean) {
+
 }
 
 private fun MutablePreferences.remove(key: String) {
