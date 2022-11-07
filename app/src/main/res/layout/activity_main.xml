@@ -15,10 +15,6 @@
         android:layout_height="match_parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:id="@+id/frameLayout"
-        android:layout_height="match_parent"/>
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

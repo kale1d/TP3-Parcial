@@ -2,10 +2,8 @@ package com.ort.edu.parcialtp3
 
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.datastore.preferences.core.MutablePreferences
@@ -15,20 +13,14 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.findFragment
-import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.ort.edu.parcialtp3.fragments.favoritos
-import com.ort.edu.parcialtp3.fragments.HomeFragment
-import com.ort.edu.parcialtp3.fragments.LoginFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.math.log
 
 val Context.dataStore by preferencesDataStore(name = "USER_PREFERENCES_NAME")
 
@@ -93,9 +85,9 @@ class MainActivity : AppCompatActivity() {
             navigationView.setNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.logout -> lifecycleScope.launch(Dispatchers.IO) { withContext(Dispatchers.Main) { logOut() } }
-                    R.id.favoritos4 -> replaceFragment(favoritos())
-                    R.id.home -> replaceFragment(HomeFragment())
-                    R.id.settings3 -> replaceFragment(SettingsActivity.SettingsFragment())
+                    R.id.favoritesFragment -> navController.navigate(R.id.favoritesFragment)
+                    R.id.home -> navController.navigate(R.id.homeFragment)
+                    R.id.settingsFragment -> replaceFragment(SettingsActivity.SettingsFragment())
                 }
                 onSupportNavigateUp()
                 true
