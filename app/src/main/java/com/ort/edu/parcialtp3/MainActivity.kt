@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                     R.id.home -> replaceFragment(HomeFragment())
                     R.id.settings3 -> replaceFragment(SettingsActivity.SettingsFragment())
                 }
+                onSupportNavigateUp()
                 true
             }
         }
