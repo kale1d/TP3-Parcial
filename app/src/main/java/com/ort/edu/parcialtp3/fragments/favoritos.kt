@@ -42,8 +42,8 @@ class favoritos : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        var name = view.findViewById<TextView>(R.id.userNameFavoritos)
-        name.text = "Hola, ${UserSession.userName}"
+        var name = view.findViewById<TextView>(R.id.fav_title)
+        name.text = "Hola ${UserSession.userName}, estos son tus personajes favoritos"
 
 
     }

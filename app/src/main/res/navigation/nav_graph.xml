@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/character_details"
         android:name="com.ort.edu.parcialtp3.fragments.CharacterDetails"
-        android:label="fragment_character_details"
+        android:label=""
         tools:layout="@layout/fragment_character_details" >
         <argument
             android:name="character"
