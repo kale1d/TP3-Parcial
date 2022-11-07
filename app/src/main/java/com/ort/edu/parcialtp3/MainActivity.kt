@@ -85,22 +85,22 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             supportActionBar?.setHomeAsUpIndicator(R.drawable.hamburger)
 
-//            navigationView.setNavigationItemSelectedListener {
-//                when (it.itemId) {
-//                    R.id.logout -> lifecycleScope.launch(Dispatchers.IO) { withContext(Dispatchers.Main) { logOut() } }
-//                    R.id.favoritos4 -> replaceFragment(favoritos())
-//                    R.id.home -> replaceFragment(HomeFragment())
-//                    R.id.settings3 -> replaceFragment(SettingsActivity.SettingsFragment())
-//                }
-//                true
-//            }
+            navigationView.setNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.logout -> lifecycleScope.launch(Dispatchers.IO) { withContext(Dispatchers.Main) { logOut() } }
+                    R.id.favoritos4 -> replaceFragment(favoritos())
+                    R.id.home -> replaceFragment(HomeFragment())
+                    R.id.settings3 -> replaceFragment(SettingsActivity.SettingsFragment())
+                }
+                true
+            }
         }
     }
 
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.homeFragment, fragment)
+        fragmentTransaction.replace(R.id.nav_host_fragment, fragment)
         fragmentTransaction.commit()
     }
 
