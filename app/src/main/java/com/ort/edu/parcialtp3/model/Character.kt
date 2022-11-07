@@ -4,25 +4,31 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import java.net.URL
 
 
-@Entity
+@Entity(tableName = "characterDB")
 data class CharacterDB(
-    @PrimaryKey val id: Int,
-    @ColumnInfo val name: String?,
-    @ColumnInfo val status: String?,
-    @ColumnInfo val image: String?,
-    @ColumnInfo val species: String?,
-    @ColumnInfo val origin: String?
-
+    @PrimaryKey var id: Int,
+    @ColumnInfo var name: String?,
+    @ColumnInfo var status: String?,
+    @ColumnInfo var image: String?,
+    @ColumnInfo var species: String?,
 )
 
 data class Origin(val name: String?, val url: String?)
 
-data class Character(val id: Int, val name: String?, val status: String?, val image: String?, val species: String?, val origin: Origin?) :
-Parcelable {
+data class Character(
+    val id: Int,
+    val name: String?,
+    val status: String?,
+    val image: String?,
+    val species: String?,
+    val origin: Origin?
+) :
+    Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString(),

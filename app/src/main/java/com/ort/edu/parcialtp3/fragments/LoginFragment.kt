@@ -88,6 +88,7 @@ class LoginFragment : Fragment() {
             lifecycleScope.launch(Dispatchers.IO) {
                 saveValues(userEditText.text.toString(), passwordEditText.text.toString())
             }
+            goToHome()
         }
     }
 
@@ -98,6 +99,8 @@ class LoginFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     if (preferences.name !== null && preferences.name.isNotEmpty()) {
                         navController.navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment(preferences.name))
+                    } else {
+
                     }
                 }
             }

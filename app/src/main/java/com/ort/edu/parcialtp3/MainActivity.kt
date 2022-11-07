@@ -12,12 +12,16 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.ort.edu.parcialtp3.fragments.favoritos
+import com.ort.edu.parcialtp3.fragments.HomeFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -81,15 +85,24 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             supportActionBar?.setHomeAsUpIndicator(R.drawable.hamburger)
 
-            navigationView.setNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.logout -> lifecycleScope.launch(Dispatchers.IO) { withContext(Dispatchers.Main) { logOut() } }
-                }
-                true
-            }
+//            navigationView.setNavigationItemSelectedListener {
+//                when (it.itemId) {
+//                    R.id.logout -> lifecycleScope.launch(Dispatchers.IO) { withContext(Dispatchers.Main) { logOut() } }
+//                    R.id.favoritos4 -> replaceFragment(favoritos())
+//                    R.id.home -> replaceFragment(HomeFragment())
+//                    R.id.settings3 -> replaceFragment(SettingsActivity.SettingsFragment())
+//                }
+//                true
+//            }
         }
     }
 
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.homeFragment, fragment)
+        fragmentTransaction.commit()
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

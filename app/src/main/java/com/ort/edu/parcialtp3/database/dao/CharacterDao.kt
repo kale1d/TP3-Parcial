@@ -15,6 +15,9 @@ interface CharacterDao {
     @Delete
     suspend fun delete(character: CharacterDB)
 
+    @Query("SELECT * FROM characterDB WHERE characterDB.id =:id")
+    suspend fun getCharacter(id: Int): CharacterDB
+
     @Query("SELECT * FROM characterDB")
     suspend fun getAll(): MutableList<CharacterDB>
 }

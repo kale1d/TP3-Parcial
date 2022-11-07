@@ -6,8 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ort.edu.parcialtp3.R
 import com.ort.edu.parcialtp3.UserSession
+import com.ort.edu.parcialtp3.adapter.CharacterDBAdapter
+import com.ort.edu.parcialtp3.model.CharacterDB
+import com.ort.edu.parcialtp3.repository.CharactersRepository
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,30 +27,51 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class favoritos : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var charactersRepository: CharactersRepository
+    private lateinit var characterRecyclerView: RecyclerView
+    private lateinit var adapter: CharacterDBAdapter
+    private lateinit var characterList: List<CharacterDB>
+    private var spanCount = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         var name = view.findViewById<TextView>(R.id.userNameFavoritos)
         name.text = "Hola, ${UserSession.userName}"
+
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view = inflater.inflate(R.layout.fragment_favoritos, container, false)
+        context?.let {
+            charactersRepository = CharactersRepository.getInstance(it)
+        }
+
+        characterRecyclerView = view.findViewById(R.id.favoritesRecyclerView)
+        characterList = arrayListOf<CharacterDB>()
+
+        lifecycleScope.launch {
+            val layoutManager = GridLayoutManager(context, spanCount)
+            characterList = charactersRepository.getAllCharacters()
+            adapter = CharacterDBAdapter(characterList, this@favoritos)
+            characterRecyclerView.layoutManager = layoutManager
+            characterRecyclerView.adapter = adapter
+
+            adapter.setItems(characterList)
+            adapter.notifyDataSetChanged()
+        }
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favoritos, container, false)
+        return view
     }
 
     companion object {

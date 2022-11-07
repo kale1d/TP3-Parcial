@@ -23,6 +23,9 @@ class CharactersRepository private constructor(appDatabase: AppDatabase) {
         return characterDao.getAll()
     }
 
+    suspend fun getCharacter(id: Int):CharacterDB {
+        return characterDao.getCharacter(id)
+    }
     companion object {
         private var charactersRepository: CharactersRepository? = null
 
