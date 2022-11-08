@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.ort.edu.parcialtp3.R
 import com.ort.edu.parcialtp3.listener.OnCharacterClickedListener
+import com.ort.edu.parcialtp3.listener.OnFavoriteCheckedCharacter
 import com.ort.edu.parcialtp3.model.Character
 import com.ort.edu.parcialtp3.model.CharacterDB
 import com.ort.edu.parcialtp3.repository.CharactersRepository
@@ -33,7 +34,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CharacterDetails.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CharacterDetails : Fragment(), OnCharacterClickedListener {
+class CharacterDetails : Fragment(), OnFavoriteCheckedCharacter {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -105,8 +106,14 @@ class CharacterDetails : Fragment(), OnCharacterClickedListener {
                 .into(characterImage)
             setCheckbox(checkBox, character.id)
         }
-
-        onCharacterSelected(character)
+        val characterDB = CharacterDB(
+            character.id,
+            character.name,
+            character.status,
+            character.image,
+            character.species
+        )
+        onFavoriteCharacter(characterDB)
     }
 
     private fun  setCheckbox(checkBox: CheckBox, id: Int) {
@@ -119,36 +126,23 @@ class CharacterDetails : Fragment(), OnCharacterClickedListener {
             }
         }
     }
-    override fun onCharacterSelected(character: Character) {
 
+
+    override fun onFavoriteCharacter(character: CharacterDB) {
         checkBox.setOnClickListener {
             if (checkBox.isChecked) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     withContext(Dispatchers.Main) {
-                        val characterDB = CharacterDB(
-                            character.id,
-                            character.name,
-                            character.status,
-                            character.image,
-                            character.species
-                        )
-                        characterRepository.addCharacter(characterDB)
+
+                        characterRepository.addCharacter(character)
                     }
                 }
             } else {
                 lifecycleScope.launch {
-                    val characterDB = CharacterDB(
-                        character.id,
-                        character.name,
-                        character.status,
-                        character.image,
-                        character.species
-                    )
-                    characterRepository.removeCharacter(characterDB)
+                    characterRepository.removeCharacter(character)
 
                 }
             }
-
         }
     }
 }
