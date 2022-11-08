@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                     R.id.logout -> lifecycleScope.launch(Dispatchers.IO) { withContext(Dispatchers.Main) { logOut() } }
                     R.id.favoritos4 -> replaceFragment(favoritos())
                     R.id.home -> replaceFragment(HomeFragment())
-                    R.id.settings3 -> replaceFragment(SettingsActivity.SettingsFragment())
+                    R.id.settings3 -> navController.navigate((R.id.settings3))
                 }
                 onSupportNavigateUp()
                 true
