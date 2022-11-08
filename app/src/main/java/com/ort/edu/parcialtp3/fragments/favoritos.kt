@@ -6,15 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.edu.parcialtp3.R
 import com.ort.edu.parcialtp3.UserSession
 import com.ort.edu.parcialtp3.adapter.CharacterDBAdapter
+import com.ort.edu.parcialtp3.dataStore
 import com.ort.edu.parcialtp3.model.CharacterDB
+import com.ort.edu.parcialtp3.model.UserData
 import com.ort.edu.parcialtp3.repository.CharactersRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,10 +48,22 @@ class favoritos : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        var name = view.findViewById<TextView>(R.id.fav_title)
-        name.text = "Hola ${UserSession.userName}, estos son tus personajes favoritos"
+        lifecycleScope.launch(Dispatchers.IO){
+            getUserData().collect(){
+                withContext(Dispatchers.Main) {
+                    var name = view.findViewById<TextView>(R.id.fav_title)
+                    name.text = "Hola, ${it.name}"
 
+                }
+            }
+        }
+    }
 
+    private fun getUserData() = requireContext().dataStore.data.map { preferences ->
+        UserData(
+            name = preferences[stringPreferencesKey("name")].orEmpty(),
+            password = preferences[stringPreferencesKey("password")].orEmpty()
+        )
     }
 
     override fun onCreateView(

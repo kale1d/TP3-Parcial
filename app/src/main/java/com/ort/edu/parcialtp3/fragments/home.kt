@@ -7,17 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.edu.parcialtp3.R
 import com.ort.edu.parcialtp3.UserSession
 import com.ort.edu.parcialtp3.adapter.CharacterAdapter
+import com.ort.edu.parcialtp3.dataStore
 import com.ort.edu.parcialtp3.listener.OnCharacterClickedListener
 import com.ort.edu.parcialtp3.model.Character
 import com.ort.edu.parcialtp3.model.CharacterData
+import com.ort.edu.parcialtp3.model.UserData
 import com.ort.edu.parcialtp3.services.ApiServiceBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -56,6 +66,7 @@ class HomeFragment : Fragment(), OnCharacterClickedListener {
         characterRecyclerView = view.findViewById(R.id.characterRecyclerView)
         characterList = arrayListOf<Character>()
 
+
         // Configuro el recyclerview y le paso un Adapter
         val layoutManager = GridLayoutManager(context, spanCount)
         characterRecyclerView.layoutManager = layoutManager
@@ -82,9 +93,23 @@ class HomeFragment : Fragment(), OnCharacterClickedListener {
 
         getCharacters()
 
-        var name = view.findViewById<TextView>(R.id.homeTextView)
-        name.text = "Hola, ${UserSession.userName}"
+        lifecycleScope.launch(Dispatchers.IO){
+            getUserData().collect(){
+                withContext(Dispatchers.Main) {
+                    var name = view.findViewById<TextView>(R.id.homeTextView)
+                    name.text = "Hola, ${it.name}"
 
+                }
+            }
+        }
+
+    }
+
+    private fun getUserData() = requireContext().dataStore.data.map { preferences ->
+        UserData(
+            name = preferences[stringPreferencesKey("name")].orEmpty(),
+            password = preferences[stringPreferencesKey("password")].orEmpty()
+        )
     }
 
     fun getCharacters() {
