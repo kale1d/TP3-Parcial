@@ -46,6 +46,7 @@ class CharacterDetails : Fragment(), OnCharacterClickedListener {
     private lateinit var origen: TextView
     private lateinit var checkBox: CheckBox
     private lateinit var character: Character
+    private lateinit var icono: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,13 +80,26 @@ class CharacterDetails : Fragment(), OnCharacterClickedListener {
         especie = view.findViewById(R.id.character_especie)
         origen = view.findViewById(R.id.character_origen)
         checkBox = view.findViewById(R.id.fav_check)
+        icono = view.findViewById(R.id.icono_status)
+
+
         arguments?.let {
             character = CharacterDetailsArgs.fromBundle(it).character
 
-            estado.text = "Estado: ${character.status}"
+            estado.text = "${character.status}"
             nombre.text = character.name
             especie.text = "Especie: ${character.species}"
             origen.text = "Origen: ${character.origin?.name}"
+
+            if(estado.text.equals("Alive")){
+                icono.setImageResource(R.drawable.ic_status_green)
+            }else if (estado.text.equals("Dead")){
+                icono.setImageResource(R.drawable.ic_status_red)
+            } else {
+                icono.setImageResource(R.drawable.ic_status_grey)
+            }
+
+
             Glide.with(this)
                 .load(character.image)
                 .into(characterImage)
