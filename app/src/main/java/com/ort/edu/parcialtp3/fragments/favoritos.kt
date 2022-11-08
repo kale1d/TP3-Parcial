@@ -52,7 +52,7 @@ class favoritos : Fragment() {
             getUserData().collect(){
                 withContext(Dispatchers.Main) {
                     var name = view.findViewById<TextView>(R.id.fav_title)
-                    name.text = "Hola, ${it.name}"
+                    name.text = "Hola, ${it.name}. Estos son tus personajes favoritos"
 
                 }
             }

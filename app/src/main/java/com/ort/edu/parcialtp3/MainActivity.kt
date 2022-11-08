@@ -82,6 +82,8 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             supportActionBar?.setHomeAsUpIndicator(R.drawable.hamburger)
 
+
+
             navigationView.setNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.logout -> lifecycleScope.launch(Dispatchers.IO) { withContext(Dispatchers.Main) { logOut() } }
@@ -94,6 +96,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
