@@ -19,6 +19,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -57,9 +58,15 @@ class MainActivity : AppCompatActivity() {
                 if(destination.id == R.id.homeFragment){
                     arguments?.getString("usuario").let { UserSession.userName = it }
                 }
+                if(destination.id == R.id.character_details){
+                    supportActionBar?.setHomeAsUpIndicator(R.drawable.back)
+                    drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
+//                    NavigationUI.navigateUp(navHostFragment.navController, drawerLayout)
+                }
             }
         }
     }
+
 
     private suspend fun logOut() {
 
@@ -83,7 +90,6 @@ class MainActivity : AppCompatActivity() {
             supportActionBar?.setHomeAsUpIndicator(R.drawable.hamburger)
 
 
-
             navigationView.setNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.logout -> lifecycleScope.launch(Dispatchers.IO) { withContext(Dispatchers.Main) { logOut() } }
@@ -98,6 +104,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -107,11 +114,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            supportActionBar?.setHomeAsUpIndicator(R.drawable.hamburger)
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             drawerLayout.openDrawer(GravityCompat.START)
+            supportActionBar?.setHomeAsUpIndicator(R.drawable.back)
         }
-
         return false
     }
 }
