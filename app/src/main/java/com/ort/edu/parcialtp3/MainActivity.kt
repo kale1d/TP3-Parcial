@@ -2,11 +2,13 @@ package com.ort.edu.parcialtp3
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.edit
@@ -21,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.google.android.material.navigation.NavigationView
 import com.ort.edu.parcialtp3.fragments.favoritos
 import com.ort.edu.parcialtp3.fragments.HomeFragment
@@ -49,8 +52,6 @@ class MainActivity : AppCompatActivity() {
 
         setUpDrawerLayout()
 
-
-
         navHostFragment.navController.addOnDestinationChangedListener { controller, destination, arguments ->
             var navViewComponent = findViewById<NavigationView>(R.id.nav_view)
             if (destination.id == R.id.loginFragment) {
@@ -62,18 +63,30 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.setHomeAsUpIndicator(R.drawable.hamburger)
                 drawerLayout.setDrawerLockMode(LOCK_MODE_UNLOCKED)
 
-                if(destination.id == R.id.homeFragment){
+                if (destination.id == R.id.homeFragment) {
                     arguments?.getString("usuario").let { UserSession.userName = it }
                 }
             }
+        }
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val darkMode = sharedPreferences.all.get(getString(R.string.dark_mode)).toString()
+
+        if (darkMode.equals("1")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else if (darkMode.equals("2")) {
+            AppCompatDelegate
+                .setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES
+                )
         }
     }
 
     private suspend fun logOut() {
 
-            dataStore.edit { preferences ->
-                preferences.clear()
-            }
+        dataStore.edit { preferences ->
+            preferences.clear()
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
         finish()
@@ -121,11 +134,4 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-private fun Intent.setFlags(b: Boolean) {
-
-}
-
-private fun MutablePreferences.remove(key: String) {
-
-}
 

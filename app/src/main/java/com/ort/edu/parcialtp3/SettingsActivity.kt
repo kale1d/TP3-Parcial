@@ -73,7 +73,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         val darkModeString = getString(R.string.dark_mode)
-
+        val favs = "favs"
         if (key == darkModeString) {
 
             val pref = sharedPreferences?.getString(key, "1")
@@ -87,6 +87,14 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                     .setDefaultNightMode(
                         AppCompatDelegate.MODE_NIGHT_YES
                     )
+            }
+        }
+        if(key == "favs") {
+            val pref = sharedPreferences?.getBoolean(key, false)
+            when (pref) {
+                true -> sharedPreferences?.edit()?.putBoolean(key, true)
+                false -> sharedPreferences?.edit()?.putBoolean(key, false)
+                else -> {}
             }
         }
 }

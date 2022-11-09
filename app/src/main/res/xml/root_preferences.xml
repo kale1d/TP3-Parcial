@@ -32,6 +32,12 @@
         android:key="check_box_preference_1"
         android:title="@string/notif_title" />
     </PreferenceCategory>
+    <PreferenceCategory app:title="@string/favs">
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="favs"
+        android:title="@string/favs" />
+    </PreferenceCategory>
 
 <PreferenceCategory android:title="@string/general">
     <Preference

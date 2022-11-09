@@ -1,6 +1,8 @@
 package com.ort.edu.parcialtp3.fragments
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
+import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,10 +11,13 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.ort.edu.parcialtp3.R
+import com.ort.edu.parcialtp3.SettingsActivity
 import com.ort.edu.parcialtp3.listener.OnCharacterClickedListener
 import com.ort.edu.parcialtp3.model.Character
 import com.ort.edu.parcialtp3.model.CharacterDB
@@ -47,7 +52,7 @@ class CharacterDetails : Fragment(), OnCharacterClickedListener {
     private lateinit var checkBox: CheckBox
     private lateinit var character: Character
     private lateinit var icono: ImageView
-
+    private var isFavsEnabled: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +68,8 @@ class CharacterDetails : Fragment(), OnCharacterClickedListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_character_details, container, false)
 
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        isFavsEnabled = sharedPreferences.all.get("favs") as Boolean
         return view
     }
 
@@ -104,6 +111,12 @@ class CharacterDetails : Fragment(), OnCharacterClickedListener {
                 .load(character.image)
                 .into(characterImage)
             setCheckbox(checkBox, character.id)
+        }
+
+        if(!isFavsEnabled) {
+            checkBox.visibility = View.GONE
+        } else {
+            checkBox.visibility = View.VISIBLE
         }
 
         onCharacterSelected(character)

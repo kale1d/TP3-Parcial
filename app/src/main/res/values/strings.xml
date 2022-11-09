@@ -28,7 +28,7 @@
     <string name="notif_title">Notificaciones con sonido</string>
     <string name="vista_title">Dark mode</string>
     <string name="general">General</string>
-
+    <string name="favs">Habilitar favoritos</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="dark_mode_def_value">1</string>
     <string name="contrasenia">Olvidaste tu contraseña?</string>
